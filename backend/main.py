@@ -26,11 +26,9 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
-
 # Models
 class UrlRequest(BaseModel):
     url: str
-
 
 # Helpers
 def get_video_id(url: str) -> str:
@@ -40,9 +38,8 @@ def get_video_id(url: str) -> str:
         return url.split("youtu.be/")[1].split("?")[0]
     return url
 
-
 # Routes
-@app.post("api/transcript")
+@app.post("/api/transcript")
 async def transcript(req: UrlRequest):
     try:
         logger.info(f"Received URL: {req.url}")
@@ -62,17 +59,13 @@ async def transcript(req: UrlRequest):
     except TranscriptsDisabled:
         logger.error("Transcripts are disabled for this video.")
         return {"error": "Transcripts are disabled for this video."}
-
     except NoTranscriptFound:
         logger.error("No transcript found in requested language(s).")
         return {"error": "No transcript found in requested language(s)."}
-
     except Exception as e:
         # Log full traceback for debugging
         tb = traceback.format_exc()
         logger.error(f"Error fetching transcript: {e}\n{tb}")
-
-       
         if "ConnectionResetError" in str(e):
             return {"error": "YouTube closed the connection. Try again later or with a different video."}
         return {"error": "An unexpected error occurred while fetching transcript."}
