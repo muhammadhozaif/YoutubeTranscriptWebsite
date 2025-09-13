@@ -5,6 +5,6 @@ export async function fetchTranscript(url) {
     body: JSON.stringify({ url }),
   });
 
-  if (!res.ok) throw new Error("Failed to fetch transcript");
+  if (!res.ok) throw new Error("Failed to fetch transcript.");
   return await res.json();
 }
