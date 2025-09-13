@@ -39,7 +39,7 @@ def get_video_id(url: str) -> str:
     return url
 
 # Routes
-@app.post("/api/transcript")
+@app.post("api/transcript")
 async def transcript(req: UrlRequest):
     try:
         logger.info(f"Received URL: {req.url}")
