@@ -1,10 +1,10 @@
-import React from "react";
-import { useState } from "react";
+import React, { useState } from "react";
 import { fetchTranscript } from "../lib/api";
 
 export default function UrlInput({ setTranscript }) {
   const [loading, setLoading] = useState(false);
   const [url, setUrl] = useState("");
+
   async function handleFetch() {
     try {
       setLoading(true);
@@ -18,17 +18,26 @@ export default function UrlInput({ setTranscript }) {
       setLoading(false);
     }
   }
+
   return (
-    <div>
+    <div className="flex flex-col sm:flex-row items-center gap-4 w-full max-w-3xl mx-auto mt-6 px-4">
       <input
         type="text"
-        placeholder="Type/Paste YouTube URL here..."
+        placeholder="Type or paste YouTube URL here..."
         onChange={(e) => setUrl(e.target.value)}
         value={url}
-        className="flex-1 border rounded px-3 py-2 shadow-sm"
+        className="flex-1 w-full sm:w-auto px-4 py-3 rounded-lg border border-gray-300 shadow-sm focus:outline-none focus:ring-2 focus:ring-indigo-400 focus:border-indigo-400 transition-all text-gray-900 placeholder-gray-400"
       />
-      <button className="ml-5" onClick={handleFetch} disabled={loading}>
-        {loading ? "Loading" : "Get Transcript"}
+      <button
+        onClick={handleFetch}
+        disabled={loading || !url}
+        className={`px-6 py-3 rounded-lg font-medium text-white transition-all focus:outline-none focus:ring-2 focus:ring-indigo-500 ${
+          loading || !url
+            ? "bg-indigo-300 cursor-not-allowed"
+            : "bg-indigo-600 hover:bg-indigo-700"
+        }`}
+      >
+        {loading ? "Loading..." : "Get Transcript"}
       </button>
     </div>
   );
