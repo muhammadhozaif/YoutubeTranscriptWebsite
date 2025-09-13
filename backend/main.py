@@ -9,15 +9,18 @@ from dotenv import load_dotenv
 
 # Setup
 load_dotenv()
-logging.basicConfig(level=logging.INFO)
-logger = logging.getLogger(__name__)
-
 app = FastAPI()
 
-origins = os.getenv("FRONTEND_URL", "http://localhost:5173")
+logging.basicConfig(level=logging.INFO)
+logger = logging.getLogger(__name__)
+vercel_url = os.getenv("VERCEL_URL")
+origins = ["http://localhost:5173"]
+if vercel_url:
+    origins.append(f"https://{vercel_url}")
+
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=[origins],
+    allow_origins=origins,
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
