@@ -7,13 +7,10 @@ import logging
 import traceback
 from dotenv import load_dotenv
 
-# Load env vars
+# Setup
 load_dotenv()
-
-# FastAPI app
 app = FastAPI()
 
-# Logging
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
 
@@ -52,8 +49,9 @@ async def transcript(req: UrlRequest):
         video_id = get_video_id(req.url)
         logger.info(f"Parsed video_id: {video_id}")
 
-        # ✅ FIX: use class method, not instance
-        fetched = YouTubeTranscriptApi.fetch(video_id, languages=["en"])
+        # ✅ Instance-based usage
+        ytt_api = YouTubeTranscriptApi()
+        fetched = ytt_api.fetch(video_id, languages=["en"])
 
         # Handle different return formats
         raw = fetched.to_raw_data() if hasattr(fetched, "to_raw_data") else fetched
@@ -71,5 +69,4 @@ async def transcript(req: UrlRequest):
     except Exception as e:
         tb = traceback.format_exc()
         logger.error(f"Error fetching transcript: {e}\n{tb}")
-        # Return real error message for debugging
         return {"error": str(e)}
