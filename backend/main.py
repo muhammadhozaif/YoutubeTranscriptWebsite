@@ -13,11 +13,15 @@ app = FastAPI()
 
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
+origins = [os.getenv("FRONTEND_URL", "http://localhost:5173")]
+vercel_url = os.getenv("VERCEL_URL")
+if vercel_url:
+    origins.append(f"https://{vercel_url}")
 
 
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["*"],
+    allow_origins=origins,
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
