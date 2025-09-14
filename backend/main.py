@@ -13,14 +13,11 @@ app = FastAPI()
 
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
-vercel_url = os.getenv("VERCEL_URL")
-origins = ["http://localhost:5173"]
-if vercel_url:
-    origins.append(f"https://{vercel_url}")
+
 
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=origins,
+    allow_origins=["*"],
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
@@ -39,7 +36,7 @@ def get_video_id(url: str) -> str:
     return url
 
 # Routes
-@app.post("api/transcript")
+@app.post("/api/transcript")
 async def transcript(req: UrlRequest):
     try:
         logger.info(f"Received URL: {req.url}")
