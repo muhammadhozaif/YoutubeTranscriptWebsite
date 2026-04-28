@@ -2,12 +2,13 @@ import React from "react";
 
 export default function Header() {
   return (
-    <header className="w-full bg-gradient-to-r from-indigo-600 via-purple-600 to-pink-500 shadow-lg">
-      <div className="max-w-4xl mx-auto px-6 py-10 text-center">
-        <h1 className="text-5xl sm:text-6xl font-extrabold tracking-tight text-white drop-shadow-md">
+    <header className="w-full bg-gradient-to-r from-indigo-600 via-purple-600 to-pink-500">
+      {/* Increased bottom padding to create canvas for the overlapping card */}
+      <div className="max-w-4xl mx-auto px-6 pt-16 pb-24 text-center">
+        <h1 className="text-4xl sm:text-5xl font-extrabold tracking-tight text-white drop-shadow-sm">
           Transcriptify
         </h1>
-        <p className="mt-4 text-xl sm:text-2xl text-white/90">
+        <p className="mt-3 text-lg sm:text-xl text-white/90 font-medium">
           The YouTube Transcript Tool
         </p>
       </div>
